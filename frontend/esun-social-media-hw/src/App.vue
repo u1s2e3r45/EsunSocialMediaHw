@@ -2,6 +2,53 @@
 import { RouterView } from 'vue-router'
 </script>
 <template>
-  <RouterView />
+  <div class="app-comntainer">
+    <div class="topbar">
+      <RouterLink to="/">
+        <img src="/public/esun_logo.png" height="45" />
+      </RouterLink>
+      <nav>
+        <RouterLink to="/login">login</RouterLink>
+      </nav>
+    </div>
+    <main>
+      <RouterView />
+    </main>
+  </div>
 </template>
-<style scoped></style>
+<style scoped>
+#app-container {
+  /* 縱向排列 */
+  display: flex;
+  flex-direction: row;
+  /* 滿版高度 */
+  height: 100vh;
+  /* 防止最外層出現滾動條(會做在main) */
+  overflow: hidden;
+}
+
+.topbar {
+  /* 橫向排列 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: fit-content;
+  padding: 6px;
+  background-color: aquamarine;
+}
+
+nav {
+  /* 橫向排列 */
+  display: flex;
+  gap: 2px;
+  padding: 2px 6px;
+}
+
+main {
+  height: auto;
+  /* 高度占用flex的剩餘部分 */
+  flex: 1;
+  overflow-y: scroll;
+}
+</style>
