@@ -2,7 +2,7 @@
 import { RouterView } from 'vue-router'
 </script>
 <template>
-  <div class="app-comntainer">
+  <div class="app-container">
     <div class="topbar">
       <RouterLink to="/">
         <img src="/public/esun_logo.png" height="45" />
@@ -17,10 +17,10 @@ import { RouterView } from 'vue-router'
   </div>
 </template>
 <style scoped>
-#app-container {
+.app-container {
   /* 縱向排列 */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   /* 滿版高度 */
   height: 100vh;
   /* 防止最外層出現滾動條(會做在main) */
