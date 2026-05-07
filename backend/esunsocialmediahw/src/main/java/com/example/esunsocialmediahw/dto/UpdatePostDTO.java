@@ -3,7 +3,7 @@ package com.example.esunsocialmediahw.dto;
 public class UpdatePostDTO {
     Long postID;
     Long userID;
-    String Content;
+    String content;
     String Image;
 
     public Long getPostID() {
@@ -23,11 +23,11 @@ public class UpdatePostDTO {
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
 
     public String getImage() {
@@ -35,6 +35,6 @@ public class UpdatePostDTO {
     }
 
     public void setImage(String image) {
-        Image = image;
+        this.Image = image;
     }
 }

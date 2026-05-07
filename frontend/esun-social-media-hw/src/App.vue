@@ -11,6 +11,7 @@ const loginStore = useLoginStore()
         <img src="/public/esun_logo.png" height="45" />
       </RouterLink>
       <nav>
+        <div v-if="loginStore.user" class="userTitle">{{ loginStore.user.account }}</div>
         <RouterLink v-if="!loginStore.user" to="/login">Sign In</RouterLink>
         <button v-if="loginStore.user" @click="loginStore.signOut">Sign Out</button>
       </nav>
@@ -54,5 +55,10 @@ main {
   /* 高度占用flex的剩餘部分 */
   flex: 1;
   overflow-y: scroll;
+}
+
+.userTitle {
+  padding: 4px;
+  color: blue;
 }
 </style>

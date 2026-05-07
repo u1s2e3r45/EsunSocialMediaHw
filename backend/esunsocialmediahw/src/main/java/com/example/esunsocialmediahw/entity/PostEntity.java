@@ -1,9 +1,12 @@
 package com.example.esunsocialmediahw.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
-
+@Entity
+@Table(name = "post")
 //post table
 public class PostEntity {
     @Id

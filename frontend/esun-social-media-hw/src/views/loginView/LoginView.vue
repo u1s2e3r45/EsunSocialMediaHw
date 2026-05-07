@@ -3,6 +3,10 @@ import { ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
 import type { SignInForm, SignUpForm } from '@/types/form'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import type { SignUpReq } from '@/types/requestDto/signUpReq'
+import type { SignUpRes } from '@/types/responseDto/signUpRes'
+import { ResponseStatus } from '@/constant/responseStatus'
 
 const router = useRouter()
 
@@ -55,9 +59,24 @@ const signUpFormValidation = (): boolean => {
 const signUp = async () => {
   // 打API到後端
   // 註冊成功的話取回使用者資料
-  loginStore.user = {
-    account: '',
-    email: '',
+  const request: SignUpReq = {
+    phone: signUpForm.value.account,
+    email: signUpForm.value.email,
+    password: signUpForm.value.password,
+  }
+  const response = await axios.post<SignUpRes>(
+    'http://localhost:8080/registerController/register',
+    request,
+  )
+  if (response.data.status === ResponseStatus.SUCCESS) {
+    loginStore.user = {
+      id: response.data.userID,
+      account: signUpForm.value.account!,
+      email: signUpForm.value.email!,
+    }
+  } else {
+    isError.value = true
+    message.value = '註冊失敗！'
   }
 }
 
@@ -87,8 +106,20 @@ const clickSignIn = async () => {
     const ifSuccess = signInFormValidation()
     if (!ifSuccess) return
     // 登入
-    await loginStore.signIn(signInForm.value.account!, signInForm.value.password!)
-    pushToHome()
+    const response = await loginStore.signIn(signInForm.value.account!, signInForm.value.password!)
+
+    if (response.data.status === ResponseStatus.SUCCESS) {
+      // 並回寫user
+      loginStore.user = {
+        id: response.data.userID,
+        account: signInForm.value.account!,
+        email: response.data.email,
+      }
+      pushToHome()
+    } else {
+      isError.value = true
+      message.value = '登入失敗！'
+    }
   } else {
     // 如果在註冊頁面就切換成登入頁面
     mode.value = 'sign in'

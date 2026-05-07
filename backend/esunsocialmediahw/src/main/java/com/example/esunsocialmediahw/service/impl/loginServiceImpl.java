@@ -1,12 +1,15 @@
 package com.example.esunsocialmediahw.service.impl;
 
 import com.example.esunsocialmediahw.dto.loginDTO;
+import com.example.esunsocialmediahw.dto.loginResponseDTO;
 import com.example.esunsocialmediahw.entity.UserEntity;
 import com.example.esunsocialmediahw.repository.loginRepository;
 import com.example.esunsocialmediahw.service.loginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class loginServiceImpl implements loginService {
     @Autowired
     private loginRepository loginRepository;
@@ -15,12 +18,17 @@ public class loginServiceImpl implements loginService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String UserLogin(loginDTO userLoginfrontend) {
+    public loginResponseDTO UserLogin(loginDTO userLoginfrontend) {
 
         UserEntity user = loginRepository.User_Login(userLoginfrontend.getPhone());
 
+        loginResponseDTO response = new loginResponseDTO();
+        response.setUserID(user.getUserID());
+        response.setUserName(user.getUserName());
+        response.setEmail(user.getEmail());
+
         if (user == null){
-            return "4444";//帳號不存在
+            response.setStatus("4444");//帳號不存在
         }
         //比對密碼
         boolean passwordCheck = passwordEncoder.matches(
@@ -29,9 +37,11 @@ public class loginServiceImpl implements loginService {
         );
 
         if (!passwordCheck){
-            return "1111";//密碼錯誤
+            response.setStatus("1111");//密碼錯誤
         }
+        response.setStatus("0000");//登入成功
 
-        return "0000";//登入成功
+
+        return response;
     }
 }

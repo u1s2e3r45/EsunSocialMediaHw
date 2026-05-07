@@ -2,7 +2,7 @@ package com.example.esunsocialmediahw.dto;
 
 public class registerDTO {
     private String userName;
-    private String Email;
+    private String email;
     private String phone;
     private String password;
     private String CoverImage;
@@ -17,11 +17,11 @@ public class registerDTO {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPhone() {

@@ -1,9 +1,10 @@
 package com.example.esunsocialmediahw.service;
 
 import com.example.esunsocialmediahw.dto.loginDTO;
+import com.example.esunsocialmediahw.dto.loginResponseDTO;
 
 public interface loginService {
-    String UserLogin(loginDTO user);
+    loginResponseDTO UserLogin(loginDTO user);
 }
 
 

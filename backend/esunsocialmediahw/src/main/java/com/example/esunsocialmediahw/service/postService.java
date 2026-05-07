@@ -7,10 +7,11 @@ import com.example.esunsocialmediahw.dto.postDTO;
 
 import java.util.List;
 
+
 public interface postService {
-    void createPost(postDTO post);
-    void updatePost(UpdatePostDTO updatePost);
-    void deletePost(DeletePostDTO deletePost);
+    String createPost(postDTO post);
+    String updatePost(UpdatePostDTO updatePost);
+    String deletePost(DeletePostDTO deletePost);
     List<PostDataDTO> showAllPost();
-    List<PostDataDTO> getUserPosts(Long userID);
+    List<PostDataDTO> showUserPost(Long userID);
 }

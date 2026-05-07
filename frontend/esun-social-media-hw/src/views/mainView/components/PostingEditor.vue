@@ -1,15 +1,36 @@
-<script lang="ts"></script>
+<script setup lang="ts">
+import { ResponseStatus } from '@/constant/responseStatus'
+import { useLoginStore } from '@/stores/loginStore'
+import axios from 'axios'
+import { ref } from 'vue'
+
+const emit = defineEmits<{
+  (event: 'onCreate'): void
+}>()
+
+const loginStore = useLoginStore()
+
+const content = ref<string>('')
+
+const createPost = async () => {
+  const response = await axios.post('http://localhost:8080/postController/createPost', {
+    userID: loginStore.user?.id,
+    content: content.value,
+  })
+  if (response.data.status === ResponseStatus.SUCCESS) {
+    content.value = ''
+    emit('onCreate')
+  }
+}
+</script>
 <template>
   <div id="post-editor">
     <div class="title-input-area">
-      <span>標題：</span>
-      <div class="input-container">
-        <input class="post-title-input" placeholder="你在想什麼..." />
-      </div>
+      <span>發文內容：</span>
     </div>
-    <input type="textarea" id="content-input" />
+    <input type="textarea" id="content-input" rows="10" v-model="content" />
     <div class="tool-list">
-      <button>發文</button>
+      <button @click="createPost">發文</button>
     </div>
   </div>
 </template>

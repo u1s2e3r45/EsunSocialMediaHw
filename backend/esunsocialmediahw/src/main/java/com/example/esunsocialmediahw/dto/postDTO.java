@@ -2,7 +2,7 @@ package com.example.esunsocialmediahw.dto;
 //recieve data from frontend
 public class postDTO {
     private Long userID;
-    private String Content;
+    private String content;
     private String Image;
 
     public Long getUserId() {
@@ -14,11 +14,11 @@ public class postDTO {
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
 
     public String getImage() {

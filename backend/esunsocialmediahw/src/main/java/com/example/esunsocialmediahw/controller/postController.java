@@ -1,25 +1,41 @@
 package com.example.esunsocialmediahw.controller;
 
-import com.example.esunsocialmediahw.dto.DeletePostDTO;
-import com.example.esunsocialmediahw.dto.UpdatePostDTO;
-import com.example.esunsocialmediahw.dto.postDTO;
+import com.example.esunsocialmediahw.dto.*;
 import com.example.esunsocialmediahw.service.postService;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+@CrossOrigin(origins = "http://localhost:5173/", allowCredentials = "true")
+@RestController
+@RequestMapping("/postController")
 public class postController {
+    @Autowired
     private postService postService;
-
-    public String createPost(@RequestBody postDTO post) {
-        postService.createPost(post);
-        return "成功發文";
+    @PostMapping("/createPost")
+    public ResponseDTO createPost(@RequestBody postDTO post) {
+        ResponseDTO response = new ResponseDTO();
+        response.setStatus(postService.createPost(post));
+        return response;
     }
-
-    public String updatePost(@RequestBody UpdatePostDTO updatePost){
-        postService.updatePost(updatePost);
-        return "貼文更新成功";
+    @PostMapping("/updatePost")
+    public ResponseDTO updatePost(@RequestBody UpdatePostDTO updatePost){
+        ResponseDTO response = new ResponseDTO();
+        response.setStatus(postService.updatePost(updatePost));
+        return response;
     }
-    public String deletePost(@RequestBody DeletePostDTO deletePost){
-        postService.deletePost(deletePost);
-        return "貼文刪除成功";
+    @PostMapping("/deletePost")
+    public ResponseDTO deletePost(@RequestBody DeletePostDTO deletePost){
+        ResponseDTO response = new ResponseDTO();
+        response.setStatus(postService.deletePost(deletePost));
+        return response;
+    }
+    @PostMapping("/showAllPost")
+    public List<PostDataDTO> showAllPost(){
+        return postService.showAllPost();
+    }
+    @PostMapping("/showUserPost")
+    public List<PostDataDTO> showUserPost(Long userID){
+        return postService.showUserPost(userID);
     }
 }

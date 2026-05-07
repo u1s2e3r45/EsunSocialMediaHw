@@ -3,7 +3,7 @@ package com.example.esunsocialmediahw.dto;
 public class commentDTO {
     private Long userID;
     private Long postID;
-    private String Content;
+    private String content;
 
     public Long getPostID() {
         return postID;
@@ -22,10 +22,10 @@ public class commentDTO {
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
 }

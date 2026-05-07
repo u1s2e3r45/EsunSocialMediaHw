@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 
 public class loginResponseDTO {
 
+    private Long userID;
+    private String userName;
+    private String email;
     private String status;
 
     public String getStatus() {
@@ -14,21 +17,27 @@ public class loginResponseDTO {
         this.status = status;
     }
 
-    //    Long userID;
-//    String userName;
-//    String Email;
-//    String phone;
-//    String CoverImage;
-//    String Biography;
-//    Timestamp Created_At;
-//
-//    public loginResponseDTO(Long userID, String userName, String Email, String phone, String CoverImage, String Biography, Timestamp Created_At) {
-//        this.userID = userID;
-//        this.userName = userName;
-//        this.Email = Email;
-//        this.phone = phone;
-//        this.CoverImage = CoverImage;
-//        this.Biography = Biography;
-//        this.Created_At = Created_At;
-//    }
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
 }
