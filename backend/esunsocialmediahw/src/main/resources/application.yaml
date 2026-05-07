@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: esunsocialmediahw
+  datasource:
+    url: jdbc:mysql://localhost:3306/esunsocialmediahwdb?useSSL=false&serverTimezone=Asia/Taipei
+    username: root
+    password: y1J*f):#}]bZ#^vz
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   # 自動建表（開發用）
+    show-sql: true
