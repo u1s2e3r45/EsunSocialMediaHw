@@ -1,22 +1,94 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useLoginStore } from '@/stores/loginStore'
+import type { SignInForm, SignUpForm } from '@/types/form'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const loginStore = useLoginStore()
 
 const mode = ref<'sign in' | 'sign up'>('sign in')
 
-const errorMessage = ref('帳號密碼錯誤')
+const isError = ref<boolean>(false)
+const message = ref('帳號密碼錯誤')
 
-const clickSignUp = () => {
+const signInForm = ref<SignInForm>({})
+const signUpForm = ref<SignUpForm>({})
+
+const signInFormValidation = (): boolean => {
+  if (!signInForm.value.account || !signInForm.value.password) {
+    isError.value = true
+    message.value = '請填寫所有欄位'
+    return false
+  }
+
+  console.log(signInForm.value)
+  isError.value = false
+  message.value = ''
+  return true
+}
+
+const signUpFormValidation = (): boolean => {
+  if (
+    !signUpForm.value.account ||
+    !signUpForm.value.email ||
+    !signUpForm.value.password ||
+    !signUpForm.value.rePassword
+  ) {
+    isError.value = true
+    message.value = '請填寫所有欄位'
+    return false
+  }
+
+  if (signUpForm.value.password !== signUpForm.value.rePassword) {
+    isError.value = true
+    message.value = '密碼二次輸入不符'
+    return false
+  }
+  console.log(signUpForm.value)
+  isError.value = false
+  message.value = ''
+  return true
+}
+
+const signUp = async () => {
+  // 打API到後端
+  // 註冊成功的話取回使用者資料
+  loginStore.user = {
+    account: '',
+    email: '',
+  }
+}
+
+const pushToHome = () => {
+  router.push('/')
+}
+
+const clickSignUp = async () => {
   if (mode.value === 'sign up') {
     // 如果已經在註冊介面就註冊
+    // 檢查註冊表單
+    const ifSuccess = signUpFormValidation()
+    if (!ifSuccess) return
+    // 註冊
+    await signUp()
+    pushToHome()
   } else {
     // 如果在登入頁面就切換成註冊頁面
     mode.value = 'sign up'
   }
 }
 
-const clickSignIn = () => {
+const clickSignIn = async () => {
   if (mode.value === 'sign in') {
     // 如果已經在登入介面就登入
+    // 檢查登入表單
+    const ifSuccess = signInFormValidation()
+    if (!ifSuccess) return
+    // 登入
+    await loginStore.signIn(signInForm.value.account!, signInForm.value.password!)
+    pushToHome()
   } else {
     // 如果在註冊頁面就切換成登入頁面
     mode.value = 'sign in'
@@ -29,21 +101,38 @@ const clickSignIn = () => {
       <div v-if="mode === 'sign in'" class="sign-in-form">
         <h1>歡迎回來</h1>
         <div class="input-row">
-          <span>帳號 ＞</span>
-          <input type="text" />
+          <span>手機 ＞</span>
+          <input v-model="signInForm.account" type="text" />
         </div>
         <div class="input-row">
           <span>密碼 ＞</span>
-          <input type="password" />
+          <input v-model="signInForm.password" type="password" />
         </div>
         <button class="btnSecondary" type="button" @click="clickSignUp">註冊</button>
         <button class="btnPrimary" type="button" @click="clickSignIn">登入</button>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+        <p v-if="message" :class="isError ? 'error' : 'base'">{{ message }}</p>
       </div>
       <div v-if="mode === 'sign up'" class="sign-up-form">
+        <h1>用戶註冊</h1>
+        <div class="input-row">
+          <span>手機號碼 ＞</span>
+          <input v-model="signUpForm.account" type="text" />
+        </div>
+        <div class="input-row">
+          <span>電子信箱 ＞</span>
+          <input v-model="signUpForm.email" type="email" />
+        </div>
+        <div class="input-row">
+          <span>輸入密碼 ＞</span>
+          <input v-model="signUpForm.password" type="text" />
+        </div>
+        <div class="input-row">
+          <span>二次輸入 ＞</span>
+          <input v-model="signUpForm.rePassword" type="text" />
+        </div>
         <button class="btnSecondary" type="button" @click="clickSignIn">登入</button>
         <button class="btnPrimary" type="button" @click="clickSignUp">註冊</button>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+        <p v-if="message" :class="isError ? 'error' : 'base'">{{ message }}</p>
       </div>
     </div>
   </div>
@@ -117,5 +206,9 @@ const clickSignIn = () => {
 
 .error {
   color: red;
+}
+
+.base {
+  color: green;
 }
 </style>

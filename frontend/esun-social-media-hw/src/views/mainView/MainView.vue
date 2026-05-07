@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useLoginStore } from '@/stores/loginStore'
 import Posting from './components/Posting.vue'
 import PostingEditor from './components/PostingEditor.vue'
-const isLogin = ref<boolean>(true)
+
+const loginStore = useLoginStore()
 </script>
 <template>
   <div class="posts">
-    <PostingEditor v-if="isLogin"></PostingEditor>
+    <PostingEditor v-if="loginStore.user"></PostingEditor>
     <Posting v-for="n in 3"></Posting>
   </div>
 </template>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import { useLoginStore } from '@/stores/loginStore'
+
+const loginStore = useLoginStore()
 </script>
 <template>
   <div class="app-container">
@@ -8,7 +11,8 @@ import { RouterView } from 'vue-router'
         <img src="/public/esun_logo.png" height="45" />
       </RouterLink>
       <nav>
-        <RouterLink to="/login">login</RouterLink>
+        <RouterLink v-if="!loginStore.user" to="/login">Sign In</RouterLink>
+        <button v-if="loginStore.user" @click="loginStore.signOut">Sign Out</button>
       </nav>
     </div>
     <main>
